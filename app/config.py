@@ -14,11 +14,17 @@ def load_configurations(app):
     app.config["VERSION"] = os.getenv("VERSION")
     app.config["PHONE_NUMBER_ID"] = os.getenv("PHONE_NUMBER_ID")
     app.config["VERIFY_TOKEN"] = os.getenv("VERIFY_TOKEN")
+    
+    # Production settings
+    app.config["ENV"] = os.getenv("FLASK_ENV", "production")
+    app.config["DEBUG"] = os.getenv("FLASK_DEBUG", "False").lower() == "true"
+    app.config["JSON_SORT_KEYS"] = False
 
 
 def configure_logging():
+    log_level = os.getenv("LOG_LEVEL", "INFO")
     logging.basicConfig(
-        level=logging.INFO,
+        level=getattr(logging, log_level),
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         stream=sys.stdout,
     )
