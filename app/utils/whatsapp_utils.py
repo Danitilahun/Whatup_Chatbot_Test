@@ -140,8 +140,9 @@ def process_whatsapp_message(body):
 
         # Prepare message payload
         logging.info("📦 [PROCESS MESSAGE] Preparing message payload...")
-        recipient = current_app.config["RECIPIENT_WAID"]
-        logging.info(f"📍 Recipient: {recipient}")
+        # Send message to the sender (wa_id), not a hardcoded recipient
+        recipient = f"+{wa_id}"  # Format: +<country_code><phone_number>
+        logging.info(f"📍 Recipient: {recipient} (Replying to sender)")
         
         data = get_text_message_input(recipient, response)
         logging.info(f"✅ Payload prepared: {data}")
